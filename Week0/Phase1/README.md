@@ -1,1 +1,15 @@
+Phase 1 – SQL to PySpark
 
+What I learned:
+
+How to create a SparkSession
+Creating DataFrames using structured data
+filter()
+select() for selecting
+groupBy() and count() for aggregations
+Writing equivalent queries in Spark SQL
+
+
+Challenges:
+
+Switching between PySpark syntax and SQL syntax
