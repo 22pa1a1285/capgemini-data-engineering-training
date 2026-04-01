@@ -1,134 +1,115 @@
-#Business Pipeline Exercises
-########### 1. Read sales data -> clean nulls -> calculate daily sales
-
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-
-spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
-
-# Read data
-sales = spark.read.option("header","true").csv("/samples/sales.csv")
-
-# Cast correct column
-sales = sales.withColumn("total_amount", col("total_amount").cast("double"))
-
-# Clean data
-sales = sales.dropna()
-
-# Calculate daily sales
-daily_sales = sales.groupBy("sale_date") \
-    .agg(sum("total_amount").alias("daily_sales"))
-
-daily_sales.show()
-
-########### 2. Read customer data -> clean invalid rows -> city-wise revenue
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-
-spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
-
-# Read customers
-customers = spark.read.option("header","true").csv("/samples/customers.csv")
-
-# Clean customers (no age column)
-customers = customers.dropna()
-
-# Read sales
-sales = spark.read.option("header","true").csv("/samples/sales.csv")
-
-# Clean sales
-sales = sales.withColumn("total_amount", col("total_amount").cast("double"))
-sales = sales.dropna()
-
-# Join
-joined_df = customers.join(sales, "customer_id")
-
-# City-wise revenue
-city_revenue = joined_df.groupBy("city") \
-    .agg(sum("total_amount").alias("total_revenue"))
-
-city_revenue.show()
-
-############# 3. Find repeat customers (>2 orders)
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
-
-spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
-
-# Read data
-sales = spark.read.option("header","true").csv("/samples/sales.csv")
-
-# Clean data
-sales = sales.dropna()
-
-# Count orders per customer
-customer_orders = sales.groupBy("customer_id") \
-    .agg(count("*").alias("order_count"))
-
-# Filter repeat customers
-repeat_customers = customer_orders.filter(col("order_count") > 1)
-
-repeat_customers.show()
-
-############### 4. Find highest spending customer in each city
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.window import Window
 
-spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
+# ------------------------------------------------------------
+# INIT SPARK
+# ------------------------------------------------------------
+spark = SparkSession.builder.appName('Business_Pipeline').getOrCreate()
 
-# Read data
-customers = spark.read.option("header","true").csv("/samples/customers.csv")
-sales = spark.read.option("header","true").csv("/samples/sales.csv")
 
-# Clean data
-customers = customers.dropna()
+# ------------------------------------------------------------
+# STEP 1: EXTRACT
+# ------------------------------------------------------------
+def extract():
+    customers = spark.read.option("header","true").csv("/samples/customers.csv")
+    sales = spark.read.option("header","true").csv("/samples/sales.csv")
+    return customers, sales
 
-sales = sales.withColumn("total_amount", col("total_amount").cast("double"))
-sales = sales.dropna()
 
-# Join
-joined_df = customers.join(sales, "customer_id")
+# ------------------------------------------------------------
+# STEP 2: CLEAN
+# ------------------------------------------------------------
+def clean(customers, sales):
+    # Clean customers
+    customers = customers.dropna()
 
-# Total spend per customer per city
-customer_spend = joined_df.groupBy("city", "customer_id") \
-    .agg(sum("total_amount").alias("total_spent"))
+    # Clean sales
+    sales = sales.withColumn("total_amount", col("total_amount").cast("double"))
+    sales = sales.dropna()
 
-# Window function
-window_spec = Window.partitionBy("city").orderBy(col("total_spent").desc())
+    return customers, sales
 
-ranked_df = customer_spend.withColumn("rank", rank().over(window_spec))
 
-# Top customers
-top_customers = ranked_df.filter(col("rank") == 1)
+# ------------------------------------------------------------
+# STEP 3: TRANSFORM (JOIN)
+# ------------------------------------------------------------
+def transform(customers, sales):
+    return customers.join(sales, "customer_id")
 
-top_customers.show()
 
-############ 5. Build final reporting table with customer, city, total spend, order count
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import *
+# ------------------------------------------------------------
+# STEP 4: BUILD METRICS
+# ------------------------------------------------------------
+def build_metrics(df, sales):
 
-spark = SparkSession.builder.appName('Spark Playground').getOrCreate()
+    # 1. Daily Sales
+    daily_sales = sales.groupBy("sale_date") \
+        .agg(sum("total_amount").alias("daily_sales"))
 
-# Read data
-customers = spark.read.option("header","true").csv("/samples/customers.csv")
-sales = spark.read.option("header","true").csv("/samples/sales.csv")
+    # 2. City-wise Revenue
+    city_revenue = df.groupBy("city") \
+        .agg(sum("total_amount").alias("total_revenue"))
 
-# Clean data
-customers = customers.dropna()
+    # 3. Repeat Customers (>2 orders)
+    repeat_customers = sales.groupBy("customer_id") \
+        .agg(count("*").alias("order_count")) \
+        .filter(col("order_count") > 2)
 
-sales = sales.withColumn("total_amount", col("total_amount").cast("double"))
-sales = sales.dropna()
+    # 4. Highest spending customer per city
+    spend = df.groupBy("city", "customer_id") \
+        .agg(sum("total_amount").alias("total_spent"))
 
-# Join
-joined_df = customers.join(sales, "customer_id")
+    window_spec = Window.partitionBy("city").orderBy(col("total_spent").desc())
 
-# Final reporting table
-final_report = joined_df.groupBy("customer_id", "city") \
-    .agg(
-        sum("total_amount").alias("total_spend"),
-        count("*").alias("order_count")
-    )
+    top_customers = spend.withColumn("rank", rank().over(window_spec)) \
+        .filter(col("rank") == 1)
 
-# Output
-final_report.show()
+    # 5. Final Reporting Table
+    final_report = df.groupBy("customer_id", "city") \
+        .agg(
+            sum("total_amount").alias("total_spent"),
+            count("*").alias("order_count")
+        )
+
+    return daily_sales, city_revenue, repeat_customers, top_customers, final_report
+
+
+# ------------------------------------------------------------
+# STEP 5: LOAD (DISPLAY)
+# ------------------------------------------------------------
+def load(daily, city, repeat, top, final):
+
+    print("\n=== Daily Sales ===")
+    daily.show()
+
+    print("\n=== City Revenue ===")
+    city.show()
+
+    print("\n=== Repeat Customers ===")
+    repeat.show()
+
+    print("\n=== Top Customers per City ===")
+    top.show()
+
+    print("\n=== Final Report ===")
+    final.show()
+
+
+# ------------------------------------------------------------
+# MAIN PIPELINE
+# ------------------------------------------------------------
+def run_pipeline():
+    customers, sales = extract()
+    customers, sales = clean(customers, sales)
+    df = transform(customers, sales)
+
+    daily, city, repeat, top, final = build_metrics(df, sales)
+
+    load(daily, city, repeat, top, final)
+
+
+# ------------------------------------------------------------
+# EXECUTE
+# ------------------------------------------------------------
+run_pipeline()
