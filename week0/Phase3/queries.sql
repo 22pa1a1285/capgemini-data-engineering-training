@@ -92,10 +92,51 @@ GROUP BY sale_date;
 
 ----------------- 2. Read customer data -> clean invalid rows -> city-wise revenue
 
+SELECT c.city, ROUND(SUM(s.total_amount),2) AS city_revenue
+FROM customers c
+JOIN sales s
+ON c.customer_id = s.customer_id
+WHERE c.customer_id IS NOT NULL
+GROUP BY c.city;
+
 
 
 ----------------- 3. Find repeat customers (>2 orders)
+SELECT customer_id, COUNT(*) AS order_count
+FROM sales
+GROUP BY customer_id
+HAVING COUNT(*) > 2;
 
 ----------------- 4. Find highest spending customer in each city
+SELECT t.city, t.customer_id, t.total_spent
+FROM (
+    SELECT c.city, s.customer_id,
+           SUM(s.total_amount) AS total_spent
+    FROM customers c
+    JOIN sales s
+        ON c.customer_id = s.customer_id
+    GROUP BY c.city, s.customer_id
+) t
+JOIN (
+    SELECT city, MAX(total_spent) AS max_spent
+    FROM (
+        SELECT c.city, s.customer_id,
+               SUM(s.total_amount) AS total_spent
+        FROM customers c
+        JOIN sales s
+            ON c.customer_id = s.customer_id
+        GROUP BY c.city, s.customer_id
+    ) t1
+    GROUP BY city
+) t2
+ON t.city = t2.city AND t.total_spent = t2.max_spent;
 
 ----------------- 5.. Build final reporting table with customer, city, total spend, order count
+
+SELECT c.customer_id, c.city,
+       ROUND(SUM(s.total_amount),2) AS total_spent,
+       COUNT(*) AS order_count
+FROM customers c
+JOIN sales s
+ON c.customer_id = s.customer_id
+GROUP BY c.customer_id, c.city;
