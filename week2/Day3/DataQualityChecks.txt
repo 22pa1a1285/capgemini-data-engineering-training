@@ -1,0 +1,120 @@
+What is Data Quality Check?
+
+It means:
+
+“Before using data, we must validate if it is correct, complete, and reliable”
+
+Why Data Quality is Critical 
+
+Imagine:
+
+Salary = NULL → Bonus calculation fails
+Duplicate IDs → Double counting sales
+Negative salary → Wrong analytics
+
+So we must validate before processing
+
+“What happens if salary is NULL?”
+
+Calculations fail
+Aggregations become wrong
+
+Code:
+df.filter(col("salary").isNull()).count()
+
+Explanation:
+
+This finds:
+
+Rows where salary is missing
+
+Example Data:
+id	salary
+1	5000
+2	NULL
+
+Output:
+
+1
+
+
+“If data is missing, business logic breaks”
+
+What to do after finding NULL?
+
+Fill with default (1000)
+Drop row
+Send to error table
+
+2. UNIQUENESS CHECK (Duplicates)
+“Can two rows have same ID?”
+
+Problem:
+Duplicate records
+Double counting
+
+Code:
+df.groupBy("id").count().filter("count > 1")
+
+Explanation:
+This finds:
+
+IDs appearing more than once
+
+Example:
+id	salary
+1	5000
+1	5000
+
+Output:
+
+id = 1, count = 2
+
+“Duplicate data = Wrong totals”
+
+What to do?
+Keep latest record
+Remove duplicates
+
+3. RANGE VALIDATION
+
+“Can salary be negative?”
+
+Invalid data
+Wrong business insights
+
+Code:
+df.filter(col("salary") < 0)
+
+Invalid values
+
+Example:
+id	salary
+1	-5000
+
+“Data must follow business rules”
+
+STEP-BY-STEP FLOW (Teach Like This)
+
+Step 1:
+Load data
+
+Step 2:
+Run quality checks
+null_count = df.filter(col("salary").isNull()).count()
+duplicate_df = df.groupBy("id").count().filter("count > 1")
+invalid_df = df.filter(col("salary") < 0)
+
+Step 3:
+Analyze results
+
+Step 4:
+Fix data
+df = df.fillna({"salary": 1000}).dropDuplicates()
+
+Step 5:
+Proceed to pipeline
+
+valid_df = df.filter(col("salary").isNotNull() & (col("salary") >= 0))
+invalid_df = df.subtract(valid_df)
+
