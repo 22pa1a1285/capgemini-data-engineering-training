@@ -1,0 +1,89 @@
+GENERATE 20,000 RECORDS (PySpark)
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import rand, when, col, expr
+import random
+
+spark = SparkSession.builder.appName("DataGenerator").getOrCreate()
+
+# Sample values
+products = ["Laptop", "Mobile", "Tablet", "Watch", "Headphones"]
+categories = ["Electronics", "Accessories"]
+cities = ["Hyderabad", "Chennai", "Bangalore", "Mumbai", "Delhi", None]
+
+data = []
+
+for i in range(20000):
+    order_id = random.randint(1000, 3000)  # duplicates + updates
+    customer_id = f"C{random.randint(1, 500)}"
+    product = random.choice(products)
+    category = random.choice(categories)
+    city = random.choice(cities)
+    date = f"2024-01-{random.randint(1,28):02d}"
+    
+    # introduce NULL + negative values
+    amount = random.choice([
+        random.randint(1000, 60000),
+        None,
+        -random.randint(1000, 5000)
+    ])
+    
+    quantity = random.randint(1, 5)
+
+    data.append((order_id, customer_id, product, category, city, date, amount, quantity))
+
+columns = ["order_id", "customer_id", "product", "category", "city", "date", "amount", "quantity"]
+
+df = spark.createDataFrame(data, columns)
+
+df.show(5)
+
+3. SAVE AS CSV (FOR BRONZE INPUT)
+df.write.mode("overwrite").option("header", True).csv("flipkart_raw_data")
+
+4. WHAT ISSUES ARE PRESENT (IMPORTANT FOR STUDENTS)
+
+Data Problems Included
+
+NULL values in:
+
+amount
+city
+
+Duplicate records:
+
+Same order_id
+
+Negative values:
+
+Invalid sales
+
+Updates:
+
+Same order_id with different dates
+
+
+Bronze Layer
+
+Tasks:
+
+Load CSV
+Store as Delta
+No cleaning
+Silver Layer
+
+Students must:
+
+Handle NULL values
+Remove duplicates
+Keep latest record (based on date)
+Remove negative amounts
+Cast data types
+
+Gold Layer
+Students must create:
+
+Total sales by product
+Total sales by city
+Total revenue
+Top customer
+Top product
