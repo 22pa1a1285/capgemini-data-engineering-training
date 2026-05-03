@@ -2,7 +2,7 @@
 
 ## Project Objective
 
-The objective of this project is to build a Databricks-based banking data pipeline that prepares clean, reliable, and analysis-ready banking data. The project can include customer, account, transaction, branch, and product-related datasets.
+The objective of this group project is to document and preserve the Banking project completed in Databricks. The project prepares clean, reliable, and analysis-ready banking data using customer, account, transaction, branch, and product-related datasets where applicable.
 
 ## Tools and Technologies
 
@@ -52,7 +52,7 @@ Gold Layer - Banking KPIs and Analytical Tables
 
 ## Notebooks
 
-Place all Databricks notebooks for this project in the `notebooks/` folder.
+Export the completed Databricks notebooks for the Banking project and place them in the `notebooks/` folder.
 
 Recommended notebook sequence:
 
@@ -79,3 +79,7 @@ Place project screenshots in the `screenshots/` folder. Recommended screenshots 
 - Project documentation
 - Output screenshots
 - Banking analytics tables or reports
+
+## Databricks Export Note
+
+The actual completed banking notebooks must be exported from the Databricks workspace and added to this folder. Do not commit access tokens or workspace credentials.

@@ -6,9 +6,9 @@ This folder contains major Databricks project work from the Capgemini data engin
 
 | Project | Description |
 | --- | --- |
-| `Individual Project - Consolidated Pipelines in Databricks` | Individual Databricks project focused on consolidated pipeline development |
+| `Individual Project - Consolated Pipelines in Databricks` | Individual Databricks project focused on the consolated pipeline work completed in Databricks |
 | `Group Project - Banking in Databricks` | Group project focused on banking data processing and analytics in Databricks |
-| `Capstone Project` | Final capstone project demonstrating end-to-end data engineering concepts |
+| `Capstone Project` | FMCG capstone project package with DLT pipeline code, documentation, outputs, diagrams, and screenshot folders |
 
 ## Standard Project Structure
 
@@ -19,10 +19,14 @@ Project Name/
   README.md
   documentation/
     PROJECT_DOCUMENTATION.md
+    reference_docs/
   notebooks/
-    .keep
+    dlt_pipeline/
+    streaming/
   screenshots/
-    .keep
+    dashboards/
+    diagrams/
+  outputs/
 ```
 
 ## What to Add for Each Project

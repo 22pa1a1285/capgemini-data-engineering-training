@@ -1,35 +1,38 @@
-# Capstone Project
+# Capstone Project - FMCG Data Engineering Pipeline
 
-This capstone project is the final Databricks project for the Capgemini data engineering training program. It should combine the major concepts practiced during the training, including ingestion, transformation, Delta Lake, data quality, medallion architecture, and analytics-ready outputs.
+This capstone project contains the FMCG Databricks pipeline package provided in `FMCG_PROJECT.zip`. The project uses Delta Live Tables style Python code to build Bronze, Silver, and Gold layers for FMCG sales, product, distributor, retailer, payment, inventory, and dashboard-ready analytics.
 
 ## Folder Structure
 
 | Folder | Purpose |
 | --- | --- |
-| `notebooks` | Databricks notebooks for the capstone pipeline |
+| `notebooks/dlt_pipeline` | Bronze, Silver, and Gold DLT pipeline Python files from the FMCG project |
+| `notebooks/streaming` | Streaming Silver and Gold pipeline files from the FMCG project |
 | `documentation` | Project explanation, architecture, workflow, and final deliverable notes |
-| `screenshots` | Screenshots of notebook runs, Databricks tables, workflows, outputs, and dashboards |
+| `documentation/reference_docs` | Reference documentation files included in the zip |
+| `screenshots/dashboards` | Dashboard screenshot placeholders from the zip |
+| `screenshots/diagrams` | Architecture and pipeline diagram placeholders from the zip |
+| `outputs` | Output CSV placeholders from the zip |
 
 ## Expected Notebook Organization
 
-Recommended notebooks:
+Included pipeline files:
 
-- `01_source_ingestion.ipynb`
-- `02_bronze_layer.ipynb`
-- `03_silver_layer_cleaning.ipynb`
-- `04_gold_layer_analytics.ipynb`
-- `05_data_quality_checks.ipynb`
-- `06_final_outputs.ipynb`
+- `notebooks/dlt_pipeline/bronze/bronze_dlt.py`
+- `notebooks/dlt_pipeline/bronze/common_utils.py`
+- `notebooks/dlt_pipeline/silver/silver_dlt.py`
+- `notebooks/dlt_pipeline/gold/gold_dlt.py`
+- `notebooks/streaming/silver_sales_stream.py`
+- `notebooks/streaming/gold_dlt.py`
 
 ## Project Workflow
 
-1. Understand the business problem and source datasets.
-2. Ingest data into Databricks.
-3. Build Bronze, Silver, and Gold layers.
-4. Apply cleaning, validation, and transformation rules.
-5. Create final analytics-ready outputs.
-6. Capture screenshots for notebooks, tables, workflows, and results.
-7. Document the complete implementation clearly.
+1. Load FMCG source CSV files into the configured Databricks volume path.
+2. Run Bronze DLT logic to enforce source schemas and add metadata.
+3. Run Silver logic to join sales entities, standardize fields, validate records, and quarantine bad data.
+4. Run Gold logic to create business-ready sales, SKU, distributor, inventory, and stock-aging outputs.
+5. Use dashboard screenshots and output files to document final results.
+6. Keep screenshots and diagrams inside the matching folders.
 
 ## Documentation
 

@@ -1,8 +1,8 @@
-# Individual Project Documentation - Consolidated Pipelines in Databricks
+# Individual Project Documentation - Consolated Pipelines in Databricks
 
 ## Project Objective
 
-The objective of this project is to create a consolidated data engineering pipeline in Databricks that can ingest source data, clean and validate it, transform it into useful business outputs, and store the final results for reporting or analytics.
+The objective of this individual project is to document and preserve the Consolated Pipelines work completed in Databricks. The project should show how source data moves through ingestion, cleaning, transformation, validation, and final reporting-ready outputs.
 
 ## Tools and Technologies
 
@@ -13,7 +13,7 @@ The objective of this project is to create a consolidated data engineering pipel
 - Delta Lake
 - GitHub
 
-## Proposed Architecture
+## Architecture
 
 ```text
 Source Data
@@ -38,9 +38,9 @@ Gold Layer - Aggregated and Business-Ready Data
 6. Validate row counts, schema, and business rules.
 7. Save final outputs and screenshots.
 
-## Notebooks
+## Notebook Deliverables
 
-Place all Databricks notebooks for this project in the `notebooks/` folder.
+Export the completed Databricks notebooks from the individual project and place them in the `notebooks/` folder.
 
 Recommended notebook sequence:
 
@@ -67,3 +67,7 @@ Place project screenshots in the `screenshots/` folder. Recommended screenshots 
 - Project documentation
 - Output screenshots
 - Final curated tables or query outputs
+
+## Databricks Export Note
+
+The actual completed notebooks must be exported from the Databricks workspace and added to this folder. Do not commit access tokens or workspace credentials.

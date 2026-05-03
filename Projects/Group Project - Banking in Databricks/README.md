@@ -1,18 +1,18 @@
 # Group Project - Banking in Databricks
 
-This group project focuses on banking data processing and analytics in Databricks. The project should demonstrate ingestion, cleansing, transformation, data quality checks, and analytical outputs for banking-related datasets.
+This folder is for the Banking group project completed in Databricks. It should contain the exported banking notebooks, project documents, and screenshots from the completed group work.
 
 ## Folder Structure
 
 | Folder | Purpose |
 | --- | --- |
-| `notebooks` | Databricks notebooks for banking data processing and analysis |
+| `notebooks` | Exported Databricks notebooks for banking data processing and analysis |
 | `documentation` | Project explanation, business logic, architecture, and implementation details |
 | `screenshots` | Screenshots of notebook runs, tables, outputs, and dashboards |
 
 ## Expected Notebook Organization
 
-Recommended notebooks:
+Recommended notebooks to export from Databricks:
 
 - `01_data_ingestion.ipynb`
 - `02_customer_account_cleaning.ipynb`
@@ -28,6 +28,10 @@ Recommended notebooks:
 4. Build curated tables for banking analysis.
 5. Generate insights such as account activity, transaction summaries, and customer-level metrics.
 6. Capture screenshots for all important outputs.
+
+## Current Status
+
+The folder structure and documentation are ready. Export the completed Banking project notebooks from Databricks into the `notebooks/` folder and add project screenshots into `screenshots/`.
 
 ## Documentation
 
