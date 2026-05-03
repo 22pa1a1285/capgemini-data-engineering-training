@@ -1,0 +1,21 @@
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Databricks local configuration and bundles
+.databricks/
+.databricks.env
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
