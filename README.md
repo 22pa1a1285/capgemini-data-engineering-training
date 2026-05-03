@@ -41,9 +41,9 @@ This repository contains my Capgemini data engineering training work, organized 
 
 The `Projects/` folder contains dedicated spaces for major Databricks project work:
 
-- `Individual Project - Consolidated Pipelines in Databricks`
-- `Group Project - Banking in Databricks`
-- `Capstone Project`
+- `Individual Project`
+- `Group Project`
+- `capstone Project`
 
 Each project has separate folders for notebooks, documentation, and screenshots.
 

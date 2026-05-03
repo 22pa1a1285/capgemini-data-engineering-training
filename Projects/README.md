@@ -6,9 +6,9 @@ This folder contains major Databricks project work from the Capgemini data engin
 
 | Project | Description |
 | --- | --- |
-| `Individual Project - Consolidated Pipelines in Databricks` | Individual Databricks project exported from `/Shared/consolidated_pipeline` |
-| `Group Project - Banking in Databricks` | Group project focused on banking data processing and analytics in Databricks |
-| `Capstone Project` | FMCG capstone project package with DLT pipeline code, documentation, outputs, diagrams, and screenshot folders |
+| `Individual Project` | Individual Consolidated Pipelines project exported from `/Shared/consolidated_pipeline` |
+| `Group Project` | Banking Transactions Lakehouse project exported from Databricks Shared |
+| `capstone Project` | FMCG capstone project package with DLT pipeline code, documentation, outputs, diagrams, and screenshot folders |
 
 ## Standard Project Structure
 
@@ -29,9 +29,9 @@ Project Name/
   outputs/
 ```
 
-## What to Add for Each Project
+## What Each Project Contains
 
-- Databricks notebooks in the `notebooks/` folder
+- Databricks notebooks or exported source files in the `notebooks/` folder
 - Project explanation and architecture in `documentation/`
 - Output screenshots, pipeline screenshots, and dashboard screenshots in `screenshots/`
-- Project-specific setup, workflow, and learning notes in the project `README.md`
+- Project-specific setup, workflow, and completed work notes in the project `README.md`
