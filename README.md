@@ -22,7 +22,7 @@ This repository contains my Capgemini data engineering training work, organized 
 | `week2/Day7` | Insurance pipeline assignment |
 | `week2/Day8` | Delta Lake, widgets, null handling, UDFs, and end-to-end pipeline notebooks |
 | `week2/Day9` | Data quality checks, star schema, and medallion architecture practice |
-| `Projects` | Individual, group, and capstone Databricks project documentation structure |
+| `Projects` | Individual, group, sprint, and capstone Databricks project documentation structure |
 
 ## Key Topics Covered
 
@@ -43,6 +43,7 @@ The `Projects/` folder contains dedicated spaces for major Databricks project wo
 
 - `Individual Project`
 - `Group Project`
+- `Sprint Project`
 - `capstone Project`
 
 Each project has separate folders for notebooks, documentation, and screenshots.
