@@ -8,7 +8,7 @@ This folder contains major Databricks project work from the Capgemini data engin
 | --- | --- |
 | `Individual Project` | Individual Consolidated Pipelines project exported from `/Shared/consolidated_pipeline` |
 | `Group Project` | Banking Transactions Lakehouse project exported from Databricks Shared |
-| `capstone Project` | FMCG capstone project package with DLT pipeline code, documentation, outputs, diagrams, and screenshot folders |
+| `capstone Project` | Healthcare Operations Lakehouse capstone project from `healthcare-ops-capstone.zip` |
 
 ## Standard Project Structure
 
